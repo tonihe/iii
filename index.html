@@ -2,18 +2,16 @@
 
 <body>
 
-    <div id="screen">
-        <div id="albumtitle">III</div>
-        <button id="startstop" onclick="stateCheck()">Start/Stop</button>
-        <div id="id_display"></div>
-        <div id="time_display"></div>
-        <div id="title_display"></div>
-    </div>
+   
+     <div class="distortion"></div>
     <div id="content">
-      
         <ul id="trackList"></ul>
-
-
+        <div id="albumtitle">III
+                <span id="id_display"></span>
+                <span id="title_display"></span>
+                <span id="time_display"></span>
+                <button id="startstop" onclick="stateCheck()">Start/Stop</button>
+        </div>
     </div>
 
 
@@ -21,22 +19,35 @@
 
 </html>
 
-<style>
-    @import url('https://fonts.googleapis.com/css?family=Literata&display=swap');
+<link href="https://fonts.googleapis.com/css?family=Fondamento|Merienda+One&display=swap" rel="stylesheet">
 
+<style>
     * {
         background-color: black;
-        color: white; 
+        color: white;
         box-sizing: border-box;
-        font-family: 'Literata', sans-serif;
+        font-family: 'Fondamento', cursive;
     }
 
- 
+    .distortion {
+        margin-top: 15vh; 
+        margin-bottom: 15vh;
+        width: 50vw;
+        height: 70vh;
+    }
 
     #content {
-        background-image:url('https://66.media.tumblr.com/0e8d36fa1c62867a4ec1290bf3da023e/tumblr_pswb132g9V1rho9f6o1_1280.jpg');
-        background-repeat: no-repeat; 
+        /* background-image:url('https://66.media.tumblr.com/0e8d36fa1c62867a4ec1290bf3da023e/tumblr_pswb132g9V1rho9f6o1_1280.jpg'); */
+        font-family: 'Merienda One', cursive;
+        font-size: 1.5rem;
+        width: 50vw;
+        height: 100vh;
+        margin-top: -100vh;
+        margin-left: 55vw;
+        position: absolute;
+        background-repeat: no-repeat;
         background-size: cover;
+
     }
 
     span {
@@ -44,33 +55,27 @@
     }
 
     li {
-        width: 90vw; 
-        display: inline-block; 
+        width: 90vw;
+        display: inline-block;
         background: transparent;
         list-style: none;
         padding: 10px;
     }
 
     li:hover {
-        width: 95vw; 
+        width: 95vw;
         background-color: maroon;
         transition: all 1s;
+
     }
 
     #startstop {
-        width: 100px; 
+        width: 200px;
+        
     }
 
-    #screen {
-        display: inline-block; 
-        width: 90vw;
-        padding: 10px;
-        font-size: 3rem;
-    }
 </style>
-
 <script type="text/javascript">
-
     var banks = [
         // {
 
@@ -223,12 +228,12 @@
     var content = document.getElementById('content');
     for (var i = 0; i < banks.length; i++) {
         var list_item = document.createElement('li');
-        list_item.className = "itemList";
+        list_item.className = "itemList" + [i];
         var list_time = document.createElement('span');
         list_item.innerHTML = banks[i].title;
         list_time.innerHTML = banks[i].length;
         content.appendChild(list_item);
-        content.appendChild(list_time);
+        // content.appendChild(list_time);
 
     }
 
@@ -249,7 +254,8 @@
     var counter;
     var j = 0;
     //FOR TESTING PURPOSES
-    counter = getTime(banks[0].time);
+    counter = getTime(banks[j].time);
+
 
 
     function timeIt() {
@@ -262,12 +268,13 @@
         btn_state = true;
         counter--;
 
-        //document.getElementById('id_display').textContent = banks[j].id;
+        document.getElementById('id_display').textContent = " : [ " + banks[j].id + " ] : ";
         document.getElementById('title_display').textContent = banks[j].title;
         document.getElementById('time_display').textContent =
             (hours < 10 ? '0' : '') + hours + ":" +
             (minutes < 10 ? '0' : '') + minutes + ":" +
             (seconds < 10 ? '0' : '') + seconds;
+
 
         stop = setTimeout(timeIt, 1000);
 
@@ -288,23 +295,129 @@
         clearTimeout(stop);
     }
 
+    function selectedTrack(x) {
+        if (btn_state != true) {
+            document.getElementsByTagName('li')[x].style.backgroundColor = "maroon";
+        }
+        else {
+            document.getElementsByTagName('li')[x].style.background = "transparent";
+        }
+    }
 
     function checkTrack() {
-        var bgtimer;
         var checkTitle = "";
         var itemEl = document.getElementsByClassName("itemList");
         for (var i = 0; i < itemEl.length; i++) {
             checkTitle = itemEl[i].innerText;
             if (checkTitle == banks[j].title) {
                 console.log(banks[j].title);
-                itemEl[i].style.backgroundColor = "maroon";
+
             }
         }
     }
 
 
 
+    console.log(document.getElementsByTagName('li'));
+    console.log(document.getElementsByTagName('li')[0].innerText);
 
+    document.getElementsByTagName('li')[0].addEventListener("click", function () {
+        j = 0;
+        selectedTrack(j);
+        counter = getTime(banks[0].time);
+        stateCheck();
 
+    });
+
+    document.getElementsByTagName('li')[1].addEventListener("click", function () {
+        j = 1;
+        selectedTrack(j);
+        counter = getTime(banks[1].time);
+        stateCheck();
+    });
+
+    document.getElementsByTagName('li')[2].addEventListener("click", function () {
+        j = 2;
+        selectedTrack(j);
+        counter = getTime(banks[2].time);
+        stateCheck();
+    });
+
+    document.getElementsByTagName('li')[3].addEventListener("click", function () {
+        j = 3;
+        selectedTrack(j);
+        counter = getTime(banks[3].time);
+        stateCheck();
+    });
+
+    document.getElementsByTagName('li')[4].addEventListener("click", function () {
+        j = 4;
+        selectedTrack(j);
+        counter = getTime(banks[4].time);
+        stateCheck();
+    });
+
+    document.getElementsByTagName('li')[5].addEventListener("click", function () {
+        j = 5;
+        selectedTrack(j);
+        counter = getTime(banks[5].time);
+        stateCheck();
+    });
+
+    document.getElementsByTagName('li')[6].addEventListener("click", function () {
+        j = 6;
+        selectedTrack(j);
+        counter = getTime(banks[6].time);
+        stateCheck();
+
+    });
+
+    document.getElementsByTagName('li')[7].addEventListener("click", function () {
+        j = 7;
+        selectedTrack(j);
+        counter = getTime(banks[7].time);
+        stateCheck();
+    });
+
+    document.getElementsByTagName('li')[8].addEventListener("click", function () {
+        j = 8;
+        selectedTrack(j);
+        counter = getTime(banks[8].time);
+        stateCheck();
+    });
+
+    document.getElementsByTagName('li')[9].addEventListener("click", function () {
+        j = 9;
+        selectedTrack(j);
+        counter = getTime(banks[9].time);
+        stateCheck();
+    });
+
+    document.getElementsByTagName('li')[10].addEventListener("click", function () {
+        j = 10;
+        selectedTrack(j);
+        counter = getTime(banks[10].time);
+        stateCheck();
+    });
+
+    document.getElementsByTagName('li')[11].addEventListener("click", function () {
+        j = 11;
+        selectedTrack(j);
+        counter = getTime(banks[11].time);
+        stateCheck();
+    });
+
+    document.getElementsByTagName('li')[12].addEventListener("click", function () {
+        j = 12;
+        selectedTrack(j);
+        counter = getTime(banks[12].time);
+        stateCheck();
+    });
 
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/106/three.min.js"
+    integrity="sha256-tAVw6WRAXc3td2Esrjd28l54s3P2y7CDFu1271mu5LE=" crossorigin="anonymous"></script>
+<script src="./hover.js"></script>
+<script src="./app.js"></script>
