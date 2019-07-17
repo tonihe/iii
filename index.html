@@ -1,0 +1,310 @@
+<html>
+
+<body>
+
+    <div id="screen">
+        <div id="albumtitle">III</div>
+        <button id="startstop" onclick="stateCheck()">Start/Stop</button>
+        <div id="id_display"></div>
+        <div id="time_display"></div>
+        <div id="title_display"></div>
+    </div>
+    <div id="content">
+      
+        <ul id="trackList"></ul>
+
+
+    </div>
+
+
+</body>
+
+</html>
+
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Literata&display=swap');
+
+    * {
+        background-color: black;
+        color: white; 
+        box-sizing: border-box;
+        font-family: 'Literata', sans-serif;
+    }
+
+ 
+
+    #content {
+        background-image:url('https://66.media.tumblr.com/0e8d36fa1c62867a4ec1290bf3da023e/tumblr_pswb132g9V1rho9f6o1_1280.jpg');
+        background-repeat: no-repeat; 
+        background-size: cover;
+    }
+
+    span {
+        background: transparent;
+    }
+
+    li {
+        width: 90vw; 
+        display: inline-block; 
+        background: transparent;
+        list-style: none;
+        padding: 10px;
+    }
+
+    li:hover {
+        width: 95vw; 
+        background-color: maroon;
+        transition: all 1s;
+    }
+
+    #startstop {
+        width: 100px; 
+    }
+
+    #screen {
+        display: inline-block; 
+        width: 90vw;
+        padding: 10px;
+        font-size: 3rem;
+    }
+</style>
+
+<script type="text/javascript">
+
+    var banks = [
+        // {
+
+        //     "id": 0,
+        //     "title": "Dummy Var",
+        //     "length": "1:00",
+        //     "time": 100
+        // },
+        {
+
+            "id": 1,
+            "title": "Till Now",
+            "length": "2:36",
+            "time": 236
+        },
+        {
+            "id": 2,
+            "title": "Gimme",
+            "length": "3:39",
+            "time": 339
+        },
+        {
+            "id": 3,
+            "title": "Contaminated",
+            "length": "4:41",
+            "time": 441
+        },
+        {
+            "id": 4,
+            "title": "Stroke",
+            "length": "3:26",
+            "time": 326
+        },
+        {
+            "id": 5,
+            "title": "Godless",
+            "length": "3:10",
+            "time": 310
+        },
+        {
+            "id": 6,
+            "title": "Sawzall",
+            "length": "3:39",
+            "time": 339
+        },
+        {
+            "id": 7,
+            "title": "Look What You're Doing To Me",
+            "length": "4:00",
+            "time": 400
+        },
+        {
+            "id": 8,
+            "title": "Hawaiian Maze",
+            "length": "4:03",
+            "time": 403
+        },
+        {
+            "id": 9,
+            "title": "Alaska",
+            "length": "3:07",
+            "time": 307
+        },
+        {
+            "id": 10,
+            "title": "Propaganda",
+            "length": "4:05",
+            "time": 405
+        },
+        {
+            "id": 11,
+            "title": "The Fall",
+            "length": "2:56",
+            "time": 256
+        },
+        {
+            "id": 12,
+            "title": "If We Were Made of Water",
+            "length": "3:24",
+            "time": 324
+        },
+        {
+            "id": 13,
+            "title": "What About Love",
+            "length": "4:18",
+            "time": 418
+        }
+    ]
+
+
+
+    /* 
+    
+        getTime sets up hh:mm:ss format input in either int or str and extracts hh::mm:ss from input
+                turns hh:mm:ss into seconds in preparation for the countdown function
+    
+        For tests: 
+    
+            var x = "10000";
+            var y = 10000;  
+            var z = 5000; 
+            var zz = 500;
+    
+        Issues: cannot input anything < 1:00 min.
+    
+    */
+    function getTime(a) {
+        const min = 60;
+        const sec = 60;
+
+        var time = "";
+        var time = a;
+
+        if (a <= 999 || a.length <= 3) {
+            time = "0" + time;
+            var minutes = time.slice(0, 2);
+            var seconds = time.slice(2, 4);
+        }
+
+        if (a <= 9999 || a.length <= 4) {
+            time = "0" + time;
+            var minutes = time.slice(0, 2);
+            var seconds = time.slice(2, 4);
+        }
+
+        if (a < 120000 || a.length < 6) {
+            time = "0" + time;
+            var hour = time.slice(0, 2);
+            var minutes = time.slice(2, 4);
+            var seconds = time.slice(4, 6);
+        }
+
+        console.log(hour + " : " + minutes + " : " + seconds);
+        //var time_str = hour + " : " + minutes + " : " + seconds;
+
+        var int_hour = parseInt(hour);
+        var int_minutes = parseInt(minutes);
+        var int_seconds = parseInt(seconds);
+
+        hour_sec = int_hour * min * sec;
+        min_sec = int_minutes * sec;
+        sec_sec = int_seconds;
+
+
+        var total_seconds = hour_sec + min_sec + sec_sec;
+        return total_seconds;
+    }
+
+
+    var content = document.getElementById('content');
+    for (var i = 0; i < banks.length; i++) {
+        var list_item = document.createElement('li');
+        list_item.className = "itemList";
+        var list_time = document.createElement('span');
+        list_item.innerHTML = banks[i].title;
+        list_time.innerHTML = banks[i].length;
+        content.appendChild(list_item);
+        content.appendChild(list_time);
+
+    }
+
+    var btn_state = false;
+
+    function stateCheck() {
+        btn_state = !btn_state;
+        if (btn_state != false) {
+            checkTrack();
+            timeIt();
+        }
+        else {
+            stopTime();
+        }
+    }
+
+
+    var counter;
+    var j = 0;
+    //FOR TESTING PURPOSES
+    counter = getTime(banks[0].time);
+
+
+    function timeIt() {
+        hours = parseInt(counter / 3600);
+        seconds_left = counter % 3600;
+
+        minutes = parseInt(counter / 60);
+        seconds = parseInt(counter % 60);
+
+        btn_state = true;
+        counter--;
+
+        //document.getElementById('id_display').textContent = banks[j].id;
+        document.getElementById('title_display').textContent = banks[j].title;
+        document.getElementById('time_display').textContent =
+            (hours < 10 ? '0' : '') + hours + ":" +
+            (minutes < 10 ? '0' : '') + minutes + ":" +
+            (seconds < 10 ? '0' : '') + seconds;
+
+        stop = setTimeout(timeIt, 1000);
+
+        if (counter == 0) {
+
+            j = j + 1;
+            counter = getTime(banks[j].time);
+            checkTrack();
+            // clearInterval(stop);
+            // stateCheck();
+
+        }
+
+    }
+
+    function stopTime() {
+        btn_state = false;
+        clearTimeout(stop);
+    }
+
+
+    function checkTrack() {
+        var bgtimer;
+        var checkTitle = "";
+        var itemEl = document.getElementsByClassName("itemList");
+        for (var i = 0; i < itemEl.length; i++) {
+            checkTitle = itemEl[i].innerText;
+            if (checkTitle == banks[j].title) {
+                console.log(banks[j].title);
+                itemEl[i].style.backgroundColor = "maroon";
+            }
+        }
+    }
+
+
+
+
+
+
+</script>
