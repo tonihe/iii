@@ -1,9 +1,10 @@
 <html>
 
 <body>
-
-   
-     <div class="distortion"></div>
+<div class="container">    
+    <div id="cur_time"></div>
+    
+    <div class="distortion"></div>
     <div id="content">
         <ul id="trackList"></ul>
         <div id="albumtitle">III
@@ -14,7 +15,7 @@
         </div>
     </div>
 
-
+</div>
 </body>
 
 </html>
@@ -23,27 +24,38 @@
 
 <style>
     * {
+        box-sizing: border-box;
+    }
+
+    body 
+    { 
+        width: 100vw; 
+        height: 100vh; 
         background-color: black;
         color: white;
-        box-sizing: border-box;
         font-family: 'Fondamento', cursive;
     }
 
+    .container {
+        padding: 10vw; 
+        width: 80vw;
+        height: 80vh;
+      
+    }
+
     .distortion {
-        margin-top: 15vh; 
-        margin-bottom: 15vh;
-        width: 50vw;
-        height: 70vh;
+        width: 40vw;
+        height: 60vh;
     }
 
     #content {
         /* background-image:url('https://66.media.tumblr.com/0e8d36fa1c62867a4ec1290bf3da023e/tumblr_pswb132g9V1rho9f6o1_1280.jpg'); */
         font-family: 'Merienda One', cursive;
-        font-size: 1.5rem;
-        width: 50vw;
-        height: 100vh;
-        margin-top: -100vh;
-        margin-left: 55vw;
+        font-size: 1rem;
+        width: 40vw;
+        height: 100%; 
+        margin-top: -60vh; 
+        margin-left: 45vw;
         position: absolute;
         background-repeat: no-repeat;
         background-size: cover;
@@ -55,7 +67,7 @@
     }
 
     li {
-        width: 90vw;
+   
         display: inline-block;
         background: transparent;
         list-style: none;
@@ -63,7 +75,7 @@
     }
 
     li:hover {
-        width: 95vw;
+      
         background-color: maroon;
         transition: all 1s;
 
